@@ -1,4 +1,5 @@
-package persist;
+package v.kiselev.persist;
+
 
 import javax.persistence.*;
 import java.util.Set;

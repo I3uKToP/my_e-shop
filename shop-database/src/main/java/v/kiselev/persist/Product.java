@@ -1,4 +1,4 @@
-package persist;
+package v.kiselev.persist;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +12,6 @@ public class Product {
     private Long id;
 
     @Column
-    @NotBlank
     private String name;
     @Column
     private BigDecimal price;
@@ -20,23 +19,17 @@ public class Product {
     @Column
     private String description;
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
+    @ManyToOne()
+    private Category category;
 
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, String description) {
+    public Product(String name, BigDecimal price, String description, Category category) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.category = category;
     }
 
     public Long getId() {
@@ -59,7 +52,23 @@ public class Product {
         return price;
     }
 
-    public void setPrice(BigDecimal cost) {
-        this.price = cost;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

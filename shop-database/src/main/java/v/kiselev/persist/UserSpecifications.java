@@ -1,4 +1,4 @@
-package persist;
+package v.kiselev.persist;
 
 import org.springframework.data.jpa.domain.Specification;
 

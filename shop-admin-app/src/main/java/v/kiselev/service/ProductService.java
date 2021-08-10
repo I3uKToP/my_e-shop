@@ -1,10 +1,9 @@
 package v.kiselev.service;
 
 import org.springframework.data.domain.Page;
-import persist.Product;
 import v.kiselev.controller.ProductListParam;
-
-import java.util.List;
+import v.kiselev.persist.Product;
+;import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {

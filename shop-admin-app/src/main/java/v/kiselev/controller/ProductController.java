@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import persist.Product;
+import v.kiselev.persist.Product;
+import v.kiselev.service.CategoryService;
 import v.kiselev.service.ProductService;
 
 
@@ -22,10 +23,12 @@ public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -42,6 +45,7 @@ public class ProductController {
     public String newProductForm(Model model) {
         logger.info("New product page requested");
         model.addAttribute("product", new Product());
+        model.addAttribute("category", categoryService.findAll());
         return "product_form";
     }
 

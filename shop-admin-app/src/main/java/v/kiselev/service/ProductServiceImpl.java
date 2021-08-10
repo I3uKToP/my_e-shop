@@ -6,10 +6,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import persist.Product;
-import persist.ProductRepository;
-import persist.ProductSpecifications;
+
 import v.kiselev.controller.ProductListParam;
+import v.kiselev.persist.Product;
+import v.kiselev.persist.ProductRepository;
+import v.kiselev.persist.ProductSpecifications;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
         return productRepository.findAll(spec,
                 PageRequest.of(Optional.ofNullable(productListParam.getPage()).orElse(1) - 1,
-                        Optional.ofNullable(productListParam.getSize()).orElse(3),
+                        Optional.ofNullable(productListParam.getSize()).orElse(100),
                         Sort.by(Sort.Direction.fromString(Optional.ofNullable(productListParam.getDirectionSort()).orElse("asc")),
                                 Optional.ofNullable(productListParam.getSortBy()).orElse("id"))));
     }

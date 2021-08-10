@@ -1,4 +1,4 @@
-package persist;
+package v.kiselev.persist;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    private List<v.kiselev.persist.User> users;
 
     public Role() {
     }
@@ -43,7 +43,7 @@ public class Role {
         this.name = name;
     }
 
-    public List<User> getUsers() {
+    public List<v.kiselev.persist.User> getUsers() {
         return users;
     }
 
