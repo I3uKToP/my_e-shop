@@ -1,8 +1,8 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="navbar">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Shop admin</a>
+        <a class="navbar-brand ps-3" href="index">Shop admin</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
@@ -21,7 +21,15 @@
                     <li><a class="dropdown-item" href="#!">Settings</a></li>
                     <li><a class="dropdown-item" href="#!">Activity Log</a></li>
                     <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    <li>
+                        <form sec:authorize="isAuthenticated()"
+                              th:action="@{/logout}" th:method="post"
+                              class="form-inline my-2 my-lg-0" >
+                        <button class="btn btn-outline-success my-2 my-sm-0">
+                            Logout <span sec:authentication="principal.username"></span>
+                        </button>
+                    </form>
+                    </li>
                 </ul>
             </li>
         </ul>

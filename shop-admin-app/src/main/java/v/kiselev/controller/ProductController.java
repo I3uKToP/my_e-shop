@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import v.kiselev.controller.DTO.ProductDto;
 import v.kiselev.persist.Product;
 import v.kiselev.service.CategoryService;
 import v.kiselev.service.ProductService;
@@ -64,12 +65,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public String update(@Valid Product product, BindingResult result) {
+    public String update(@Valid ProductDto productDto, BindingResult result) {
         logger.info("Saving product");
         if (result.hasErrors()) {
             return "product_form";
         }
-        productService.save(product);
+        productService.save(productDto);
         return "redirect:/product";
     }
 }

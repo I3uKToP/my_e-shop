@@ -16,37 +16,39 @@ public class SecurityConfig {
     public void authConfig(AuthenticationManagerBuilder auth,
                            PasswordEncoder passEncoder,
                            UserAuthService userAuthService) throws Exception {
-        auth.inMemoryAuthentication().withUser("mem_guest")
-                .password(passEncoder.encode("123"))
-                .roles("GUEST")
-                .and().withUser("admin")
-                .password(passEncoder.encode("123"))
-                .roles("ADMIN");
+//        auth.inMemoryAuthentication().withUser("mem_guest")
+//                .password(passEncoder.encode("123"))
+//                .roles("GUEST")
+//                .and().withUser("admin")
+//                .password(passEncoder.encode("123"))
+//                .roles("ADMIN");
 
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setUserDetailsService(userAuthService);
-//        provider.setPasswordEncoder(passEncoder);
-//
-//        auth.authenticationProvider(provider);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userAuthService);
+        provider.setPasswordEncoder(passEncoder);
+
+        auth.authenticationProvider(provider);
     }
 
-//    @Configuration
-//    public static class UiWebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
-//
-//        @Override
-//        protected void configure(HttpSecurity http) throws Exception {
-//            http.
-//                    authorizeRequests()
-//                    .antMatchers("/**/*.css", "/**/*.js").permitAll()
-//                    .antMatchers("/product/**").permitAll()
-//                    .antMatchers("/user/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
-//                    .and()
-//                    .formLogin()
-//                    .loginPage("/login")
-//                    .defaultSuccessUrl("/user")
-//                    .and()
-//                    .exceptionHandling()
-//                    .accessDeniedPage("/access_denied");
-//        }
-//    }
+    @Configuration
+    public static class UiWebSecurityConfigAdapter extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.
+                    authorizeRequests()
+                    .antMatchers("/**/*.css", "/**/*.js").permitAll()
+                    .antMatchers("/product/**").hasAnyRole("ADMIN", "SUPERADMIN", "CONTENT")
+                    .antMatchers("/user/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                    .antMatchers("/category/**").hasAnyRole("ADMIN", "SUPERADMIN")
+                    .antMatchers("/index/**").hasAnyRole("ADMIN", "SUPERADMIN","CONTENT")
+                    .and()
+                    .formLogin()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/index")
+                    .and()
+                    .exceptionHandling()
+                    .accessDeniedPage("/access_denied");
+        }
+    }
 }

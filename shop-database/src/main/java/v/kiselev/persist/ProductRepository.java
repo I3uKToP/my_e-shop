@@ -10,8 +10,4 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
-    @Query("select p " +
-            "from Product p " +
-            "join fetch p.category ")
-    List<Product> findAll();
 }
