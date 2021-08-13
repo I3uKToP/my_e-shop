@@ -1,7 +1,8 @@
-package v.kiselev.persist;
+package v.kiselev.persist.model;
+
+import v.kiselev.persist.model.Category;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 @Entity

@@ -1,12 +1,8 @@
 package v.kiselev.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import v.kiselev.controller.ProductListParam;
 import v.kiselev.persist.*;
+import v.kiselev.persist.model.Category;
 
 import java.util.List;
 import java.util.Optional;

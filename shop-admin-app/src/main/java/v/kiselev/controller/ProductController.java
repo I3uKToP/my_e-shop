@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import v.kiselev.controller.DTO.ProductDto;
-import v.kiselev.persist.Product;
+import v.kiselev.persist.model.Product;
 import v.kiselev.service.CategoryService;
 import v.kiselev.service.ProductService;
 

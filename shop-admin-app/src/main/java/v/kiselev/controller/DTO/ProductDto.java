@@ -1,6 +1,6 @@
 package v.kiselev.controller.DTO;
 
-import v.kiselev.persist.Category;
+import v.kiselev.persist.model.Category;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
