@@ -36,7 +36,8 @@ public class ProductServiceImpl implements ProductService {
                         product.getName(),
                         product.getPrice(),
                         product.getDescription(),
-                        product.getCategory()
+                        product.getCategory(),
+                        product.getBrand()
                 )).collect(Collectors.toList());
     }
 
@@ -65,7 +66,8 @@ public class ProductServiceImpl implements ProductService {
                         product.getName(),
                         product.getPrice(),
                         product.getDescription(),
-                        product.getCategory()));
+                        product.getCategory(),
+                        product.getBrand()));
     }
 
     @Override
@@ -76,7 +78,8 @@ public class ProductServiceImpl implements ProductService {
                         product.getName(),
                         product.getPrice(),
                         product.getDescription(),
-                        product.getCategory()
+                        product.getCategory(),
+                        product.getBrand()
                 ));
     }
 
@@ -91,7 +94,8 @@ public class ProductServiceImpl implements ProductService {
                 productDto.getName(),
                 productDto.getPrice(),
                 productDto.getDescription(),
-                productDto.getCategory());
+                productDto.getCategory(),
+                productDto.getBrand());
         productRepository.save(product);
     }
 }

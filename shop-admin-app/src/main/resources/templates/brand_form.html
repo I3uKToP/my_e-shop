@@ -11,44 +11,21 @@
                         <h1 class="mt-4">Tables</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">New product</li>
+                            <li class="breadcrumb-item active">New brand</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Product Table
+                                Brand Table
                             </div>
-                            <form th:action="@{/product}" method="post" th:object="${product}">
+                            <form th:action="@{/brand}" method="post" th:object="${brand}">
                                 <input type="hidden" id="id" th:field="*{id}">
                                 <div class="form-group">
-                                    <label>Product name</label>
-                                    <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Enter product name">
+                                    <label class="mt-4">Brand name</label>
+                                    <input type="text" class="form-control mt-4" id="name" th:field="*{name}" placeholder="Enter brand name">
                                     <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors = "*{name}" ></p>
-
-                                    <input type="number" class="form-control" id="price" th:field="*{price}" placeholder="Enter product price">
-
-                                    <input type="text" class="form-control" id="description" th:field="*{description}" placeholder="Enter product description">
-
-
-                                    <div class="form-group">
-                                        <label for="category">Выберите категорию</label>
-                                        <select class="form-control mt-2" id="category" th:field="*{category}" required>
-                                            <option th:each="cat : ${category}"
-                                                    th:text="${cat.name}"
-                                                    th:value="${cat.id}"></option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="category">Выберите брэнд</label>
-                                        <select class="form-control mt-2" id="brand" th:field="*{brand}" required>
-                                            <option th:each="brand : ${brand}"
-                                                    th:text="${brand.name}"
-                                                    th:value="${brand.id}"></option>
-                                        </select>
-                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary mt-4">Submit</button>
                             </form>
                         </div>
                     </div>
