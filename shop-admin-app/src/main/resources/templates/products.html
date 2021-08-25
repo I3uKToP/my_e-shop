@@ -34,6 +34,7 @@
                                             <th>Product name</th>
                                             <th>Price</th>
                                             <th>Description</th>
+                                            <th>Image</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -45,6 +46,7 @@
                                             <td th:text="${product.name}">Tea</td>
                                             <td th:text="${product.price}">Price</td>
                                             <td th:text="${product.description}">Description</td>
+                                            <td><img th:src="@{/picture/{id}(id = ${product.pictures.get(0)})}" height="100px" align="center"/> </td>
                                             <td>
                                                 <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i
                                                         class="fas fa-edit"></i></a>
