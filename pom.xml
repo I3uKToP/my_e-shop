@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>v.kislev</groupId>
+    <groupId>v.kiselev</groupId>
     <artifactId>my_e-shop</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -28,6 +28,7 @@
         <module>shop-database</module>
         <module>shop-admin-app</module>
         <module>shop-backend-api-app</module>
+        <module>picture-sevice</module>
     </modules>
 
 </project>
