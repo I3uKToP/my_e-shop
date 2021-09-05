@@ -1,5 +1,7 @@
-package v.kiselev.persist;
+package v.kiselev.persist.model;
 
+
+import v.kiselev.persist.model.Role;
 
 import javax.persistence.*;
 import java.util.Set;

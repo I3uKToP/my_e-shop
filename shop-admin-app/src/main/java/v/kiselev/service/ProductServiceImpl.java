@@ -5,12 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import v.kiselev.controller.DTO.ProductDto;
 import v.kiselev.controller.ProductListParam;
-import v.kiselev.persist.Product;
+import v.kiselev.persist.model.Product;
 import v.kiselev.persist.ProductRepository;
 import v.kiselev.persist.ProductSpecifications;
 
@@ -37,7 +36,8 @@ public class ProductServiceImpl implements ProductService {
                         product.getName(),
                         product.getPrice(),
                         product.getDescription(),
-                        product.getCategory()
+                        product.getCategory(),
+                        product.getBrand()
                 )).collect(Collectors.toList());
     }
 
@@ -66,7 +66,8 @@ public class ProductServiceImpl implements ProductService {
                         product.getName(),
                         product.getPrice(),
                         product.getDescription(),
-                        product.getCategory()));
+                        product.getCategory(),
+                        product.getBrand()));
     }
 
     @Override
@@ -77,7 +78,8 @@ public class ProductServiceImpl implements ProductService {
                         product.getName(),
                         product.getPrice(),
                         product.getDescription(),
-                        product.getCategory()
+                        product.getCategory(),
+                        product.getBrand()
                 ));
     }
 
@@ -92,7 +94,8 @@ public class ProductServiceImpl implements ProductService {
                 productDto.getName(),
                 productDto.getPrice(),
                 productDto.getDescription(),
-                productDto.getCategory());
+                productDto.getCategory(),
+                productDto.getBrand());
         productRepository.save(product);
     }
 }

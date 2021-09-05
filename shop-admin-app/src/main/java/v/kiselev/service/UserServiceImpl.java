@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import v.kiselev.controller.DTO.RoleDto;
 import v.kiselev.controller.DTO.UserDto;
 import v.kiselev.controller.UserListParams;
-import v.kiselev.persist.Role;
-import v.kiselev.persist.User;
+import v.kiselev.persist.model.Role;
+import v.kiselev.persist.model.User;
 import v.kiselev.persist.UserRepository;
 import v.kiselev.persist.UserSpecifications;
 

@@ -16,12 +16,9 @@ public class SecurityConfig {
     public void authConfig(AuthenticationManagerBuilder auth,
                            PasswordEncoder passEncoder,
                            UserAuthService userAuthService) throws Exception {
-//        auth.inMemoryAuthentication().withUser("mem_guest")
-//                .password(passEncoder.encode("123"))
-//                .roles("GUEST")
-//                .and().withUser("admin")
-//                .password(passEncoder.encode("123"))
-//                .roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("mem_super")
+                .password(passEncoder.encode("123"))
+                .roles("SUPERADMIN");
 
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userAuthService);

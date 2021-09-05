@@ -1,6 +1,6 @@
 package v.kiselev.service;
 
-import v.kiselev.persist.Category;
+import v.kiselev.persist.model.Category;
 
 import java.util.List;
 import java.util.Optional;

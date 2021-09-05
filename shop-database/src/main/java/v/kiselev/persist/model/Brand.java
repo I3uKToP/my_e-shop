@@ -1,12 +1,11 @@
-package v.kiselev.persist;
+package v.kiselev.persist.model;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-@Table(name = "category")
-public class Category {
+@Table(name = "brand")
+public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +20,10 @@ public class Category {
             cascade = CascadeType.ALL)
     private List<Product> products;
 
-    public Category() {
+    public Brand() {
     }
 
-    public Category(String name) {
+    public Brand(String name) {
         this.name = name;
     }
 
@@ -51,4 +50,6 @@ public class Category {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
+
+
 }

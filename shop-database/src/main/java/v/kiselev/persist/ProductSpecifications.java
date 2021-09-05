@@ -1,6 +1,7 @@
 package v.kiselev.persist;
 
 import org.springframework.data.jpa.domain.Specification;
+import v.kiselev.persist.model.Product;
 
 import java.math.BigDecimal;
 

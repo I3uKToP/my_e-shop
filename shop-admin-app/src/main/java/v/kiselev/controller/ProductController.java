@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import v.kiselev.controller.DTO.ProductDto;
-import v.kiselev.persist.Product;
+import v.kiselev.persist.model.Product;
+import v.kiselev.service.BrandService;
 import v.kiselev.service.CategoryService;
 import v.kiselev.service.ProductService;
 
@@ -25,11 +26,13 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final BrandService brandService;
 
     @Autowired
-    public ProductController(ProductService productService, CategoryService categoryService) {
+    public ProductController(ProductService productService, CategoryService categoryService, BrandService brandService) {
         this.productService = productService;
         this.categoryService = categoryService;
+        this.brandService = brandService;
     }
 
     @GetMapping
@@ -47,6 +50,7 @@ public class ProductController {
         logger.info("New product page requested");
         model.addAttribute("product", new Product());
         model.addAttribute("category", categoryService.findAll());
+        model.addAttribute("brand", brandService.findAll());
         return "product_form";
     }
 

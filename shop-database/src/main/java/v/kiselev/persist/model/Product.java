@@ -1,7 +1,7 @@
-package v.kiselev.persist;
+package v.kiselev.persist.model;
+
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 @Entity
@@ -22,14 +22,18 @@ public class Product {
     @ManyToOne()
     private Category category;
 
+    @ManyToOne()
+    private Brand brand;
+
     public Product() {
     }
 
-    public Product(String name, BigDecimal price, String description, Category category) {
+    public Product(String name, BigDecimal price, String description, Category category, Brand brand) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.category = category;
+        this.brand = brand;
     }
 
     public Long getId() {
@@ -70,5 +74,13 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }

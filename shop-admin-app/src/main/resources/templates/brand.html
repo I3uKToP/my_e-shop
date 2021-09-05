@@ -11,44 +11,33 @@
                         <h1 class="mt-4">Tables</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Products</li>
+                            <li class="breadcrumb-item active">Category</li>
                         </ol>
-
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Products table
+                                Brand Table
                             </div>
-
                             <div class="col-12 mt-3">
-                                <a class="btn btn-primary" th:href="@{/product/new}">Add product</a>
+                                <a class="btn btn-primary" th:href="@{/brand/new}">Add Brand</a>
                             </div>
-
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Category</th>
-                                            <th>Brand</th>
-                                            <th>Product name</th>
-                                            <th>Price</th>
-                                            <th>Description</th>
+                                            <th>Brand name</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:if="${products.content}" th:each="product : ${products.content}">
-                                            <th scope="row" th:text="${product.id}">1</th>
-                                            <td th:text="${product.category.name}">Smartphone</td>
-                                            <td th:text="${product.brand.name}">Apple</td>
-                                            <td th:text="${product.name}">Tea</td>
-                                            <td th:text="${product.price}">Price</td>
-                                            <td th:text="${product.description}">Description</td>
+                                        <tr th:each="brand : ${brand}">
+                                            <th scope="row" th:text="${brand.id}">1</th>
+                                            <td th:text="${brand.name}">Tea</td>
                                             <td>
-                                                <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i
+                                                <a class="btn btn-success" th:href="@{/brand/{id}(id = ${brand.id})}"><i
                                                         class="fas fa-edit"></i></a>
-                                                <a class="btn btn-danger" th:href="@{/product/remove/{id}(id = ${product.id})}"><i
+                                                <a class="btn btn-danger" th:href="@{/brand/remove/{id}(id = ${brand.id})}"><i
                                                         class="far fa-trash-alt"></i></a>
                                             </td>
                                         </tr>

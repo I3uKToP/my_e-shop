@@ -1,6 +1,7 @@
 package v.kiselev.controller.DTO;
 
-import v.kiselev.persist.Category;
+import v.kiselev.persist.model.Brand;
+import v.kiselev.persist.model.Category;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,15 +21,18 @@ public class ProductDto {
 
     private Category category;
 
+    private Brand brand;
+
     public ProductDto() {
     }
 
-    public ProductDto(Long id, @NotBlank String name, @NotNull BigDecimal price, @NotNull String description, Category category) {
+    public ProductDto(Long id, @NotBlank String name, @NotNull BigDecimal price, @NotNull String description, Category category, Brand brand) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.category = category;
+        this.brand = brand;
     }
 
     public Long getId() {
@@ -69,5 +73,13 @@ public class ProductDto {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }
