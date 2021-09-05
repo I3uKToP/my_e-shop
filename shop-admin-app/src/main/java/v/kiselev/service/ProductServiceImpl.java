@@ -7,12 +7,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import v.kiselev.controller.DTO.ProductDto;
 import v.kiselev.controller.ProductListParam;
+import v.kiselev.persist.model.Picture;
 import v.kiselev.persist.model.Product;
 import v.kiselev.persist.ProductRepository;
 import v.kiselev.persist.ProductSpecifications;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,9 +26,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+    private final PictureService pictureService;
+
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, PictureService pictureService) {
         this.productRepository = productRepository;
+        this.pictureService = pictureService;
     }
 
 
@@ -37,7 +44,9 @@ public class ProductServiceImpl implements ProductService {
                         product.getPrice(),
                         product.getDescription(),
                         product.getCategory(),
-                        product.getBrand()
+                        product.getBrand(),
+                        product.getPictures().stream()
+                                .map(picture -> picture.getId()).collect(Collectors.toList())
                 )).collect(Collectors.toList());
     }
 
@@ -67,7 +76,9 @@ public class ProductServiceImpl implements ProductService {
                         product.getPrice(),
                         product.getDescription(),
                         product.getCategory(),
-                        product.getBrand()));
+                        product.getBrand(),
+                        product.getPictures().stream()
+                                .map(picture -> picture.getId()).collect(Collectors.toList())));
     }
 
     @Override
@@ -79,8 +90,9 @@ public class ProductServiceImpl implements ProductService {
                         product.getPrice(),
                         product.getDescription(),
                         product.getCategory(),
-                        product.getBrand()
-                ));
+                        product.getBrand(),
+                        product.getPictures().stream()
+                                .map(picture -> picture.getId()).collect(Collectors.toList())));
     }
 
     @Override
@@ -89,13 +101,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void save(ProductDto productDto) {
-        Product product = new Product(
-                productDto.getName(),
-                productDto.getPrice(),
-                productDto.getDescription(),
-                productDto.getCategory(),
-                productDto.getBrand());
+        Product product = (productDto.getId() != null) ? productRepository.findById(productDto.getId())
+                .orElseThrow(() -> new RuntimeException("")) : new Product();
+
+        product.setName(productDto.getName());
+        product.setPrice(productDto.getPrice());
+        product.setDescription(productDto.getDescription());
+        product.setCategory(productDto.getCategory());
+        product.setBrand(productDto.getBrand());
+
+        if(productDto.getNewPictures() !=null) {
+            for (MultipartFile newPicture : productDto.getNewPictures()) {
+                try {
+                    product.getPictures().add(new Picture(null,
+                            newPicture.getOriginalFilename(),
+                            newPicture.getContentType(),
+                            pictureService.createPicture(newPicture.getBytes()),
+                            product));
+                } catch (IOException ex) {
+                    throw  new RuntimeException(ex);
+                }
+            }
+        }
         productRepository.save(product);
     }
 }

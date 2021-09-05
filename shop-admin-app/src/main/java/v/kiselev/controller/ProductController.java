@@ -28,6 +28,7 @@ public class ProductController {
     private final CategoryService categoryService;
     private final BrandService brandService;
 
+
     @Autowired
     public ProductController(ProductService productService, CategoryService categoryService, BrandService brandService) {
         this.productService = productService;
@@ -48,7 +49,7 @@ public class ProductController {
     @GetMapping("/new")
     public String newProductForm(Model model) {
         logger.info("New product page requested");
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new ProductDto());
         model.addAttribute("category", categoryService.findAll());
         model.addAttribute("brand", brandService.findAll());
         return "product_form";
@@ -58,6 +59,8 @@ public class ProductController {
     public String editProduct(@PathVariable("id") Long id, Model model) {
         logger.info("Edit product");
         model.addAttribute("product", productService.findById(id));
+        model.addAttribute("category", categoryService.findAll());
+        model.addAttribute("brand", brandService.findAll());
         return "product_form";
     }
 
