@@ -56,9 +56,23 @@
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
-                        <div class="col-12" th:each="pict : ${product.get().getPictures()}">
-                            <img th:src="@{/picture/{id}(id = ${pict})}" height="250px" alt="Some image"/>
-<!--                            <img th:src="@{/picture/${id}}" height="250px" alt="Some image"/>-->
+<!--                        <div class="col-12" th:each="pict : ${product.get().getPictures()}">-->
+<!--                        <div class="col-12" th:if="${!product.get().getPictures().isEmpty()}" th:each="pict : ${product.get().getPictures()}">-->
+<!--                        <div class="col-12" th:if="${product.get().getPictures() != null}" th:each="pict : ${product.get().getPictures()}">-->
+<!--                            <img th:src="@{/picture/{id}(id = ${pict})}" height="250px" alt="Some image"/>-->
+<!--&lt;!&ndash;                            <img th:src="@{/picture/${id}}" height="250px" alt="Some image"/>&ndash;&gt;-->
+<!--                        </div>-->
+
+                        <div class="container-fluid mt-4">
+                            <div class="card-columns" style="column-count: 5">
+                                <div class="card" th:each="picId : ${product.get().getPictures()}">
+                                    <form class="card-header" th:method="delete" th:action="@{/picture/{pictureId}(pictureId=${picId})}" >
+                                        Picture<button class="float-right"><i class="fa fa-times"></i></button>
+                                    </form>
+                                    <img class="card-img-bottom" th:src="@{/picture/{pictureId}(pictureId=${picId})}"
+                                         width="10%"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </main>

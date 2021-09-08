@@ -2,6 +2,7 @@ package v.kiselev.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +33,16 @@ public class PictureController {
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
+    }
+
+    @DeleteMapping("/{pictureId}")
+    public String deletePicture(@PathVariable("pictureId") Long pictureId) {
+
+        Long productId = pictureService.findProductByPictureId(pictureId);
+
+        pictureService.deletePicture(pictureId);
+
+
+        return "redirect:/product/".concat(String.valueOf(productId));
     }
 }
