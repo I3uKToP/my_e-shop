@@ -26,12 +26,16 @@ public class ProductController {
     @GetMapping("/all")
     public Page<ProductDto> findAll(@RequestParam("categoryId") Optional<Long> categoryId,
                                     @RequestParam("namePattern") Optional<String> namePattern,
+                                    @RequestParam("minPrice") Optional<Integer> minPrice,
+                                    @RequestParam("maxPrice") Optional<Integer> maxPrice,
                                     @RequestParam("page") Optional<Integer> page,
                                     @RequestParam("size") Optional<Integer> size,
                                     @RequestParam("sortField") Optional<String> sortField) {
         return productService.findAll(
                 categoryId,
                 namePattern,
+                minPrice,
+                maxPrice,
                 page.orElse(1) - 1,
                 size.orElse(5),
                 sortField.filter(fld -> !fld.isBlank()).orElse("id"));
