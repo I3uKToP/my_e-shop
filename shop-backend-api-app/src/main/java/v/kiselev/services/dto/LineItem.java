@@ -1,12 +1,15 @@
 package v.kiselev.services.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import v.kiselev.controllers.DTO.ProductDto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LineItem implements Serializable {
 
     private Long productId;
@@ -15,21 +18,18 @@ public class LineItem implements Serializable {
 
     private Integer qty;
 
-    private String material;
-
     private String color;
 
-    private Integer itemTotal;
+    private String material;
 
-    public LineItem() {
-    }
-
-    public LineItem(ProductDto productDto, String color, String material, Integer itemTotal) {
+    public LineItem(ProductDto productDto, String color, String material) {
         this.productId = productDto.getId();
         this.productDto = productDto;
         this.color = color;
         this.material = material;
-        this.itemTotal = itemTotal;
+    }
+
+    public LineItem() {
     }
 
     public Long getProductId() {
@@ -56,14 +56,6 @@ public class LineItem implements Serializable {
         this.qty = qty;
     }
 
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
-    }
-
     public String getColor() {
         return color;
     }
@@ -72,12 +64,16 @@ public class LineItem implements Serializable {
         this.color = color;
     }
 
-    public BigDecimal getItemTotal() {
-        return productDto.getPrice().multiply(new BigDecimal(qty));
+    public String getMaterial() {
+        return material;
     }
 
-    public void setItemTotal(Integer itemTotal) {
-        this.itemTotal = itemTotal;
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public BigDecimal getItemTotal() {
+        return productDto.getPrice().multiply(new BigDecimal(qty));
     }
 
     @Override
@@ -85,13 +81,13 @@ public class LineItem implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LineItem lineItem = (LineItem) o;
-        return Objects.equals(productId, lineItem.productId) &&
-                Objects.equals(material, lineItem.material) &&
-                Objects.equals(color, lineItem.color);
+        return productId.equals(lineItem.productId) &&
+                Objects.equals(color, lineItem.color) &&
+                Objects.equals(material, lineItem.material);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, material, color);
+        return Objects.hash(productId, color, material);
     }
 }
