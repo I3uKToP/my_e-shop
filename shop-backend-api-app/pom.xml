@@ -41,7 +41,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>v.kislev</groupId>
+			<groupId>v.kiselev</groupId>
 			<artifactId>shop-database</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>

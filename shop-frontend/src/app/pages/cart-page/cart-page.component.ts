@@ -3,6 +3,7 @@ import {CartService} from "../../services/cart.service";
 import {AllCartDto} from "../../model/all-cart-dto";
 import {LineItem} from "../../model/line-item";
 import {empty} from "rxjs";
+import {OrderService} from "../../services/order.service";
 
 
 export const CART_URL = 'cart'
@@ -13,11 +14,12 @@ export const CART_URL = 'cart'
   styleUrls: ['./cart-page.component.scss']
 })
 export class CartPageComponent implements OnInit {
-  @ViewChild('qtyInputHtml') qtyInputHtml?: number;
+  // @ViewChild('qtyInputHtml') qtyInputHtml?: number;
   content?: AllCartDto;
 
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService,
+              private orderService : OrderService) {
   }
 
   ngOnInit(): void {
@@ -47,5 +49,10 @@ export class CartPageComponent implements OnInit {
   clearCart() {
     this.content = undefined;
     this.cartService.clearCart().subscribe()
+  }
+
+  createOrder() {
+    this.content = undefined;
+    this.orderService.createOrder().subscribe()
   }
 }

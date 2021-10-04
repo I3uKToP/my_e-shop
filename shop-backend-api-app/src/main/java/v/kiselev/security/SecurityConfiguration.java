@@ -19,11 +19,8 @@ public class SecurityConfiguration {
 
     @Autowired
     public void authConfigure(AuthenticationManagerBuilder auth,
-                              PasswordEncoder passwordEncoder) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("super")
-                .password(passwordEncoder.encode("super"))
-                .roles("ADMIN", "SUPER_ADMIN");
+                              UserAuthService userAuthService) throws Exception {
+        auth.userDetailsService(userAuthService);
     }
 
     @Configuration
