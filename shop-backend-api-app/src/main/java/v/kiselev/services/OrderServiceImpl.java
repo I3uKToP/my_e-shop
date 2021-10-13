@@ -2,6 +2,8 @@ package v.kiselev.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +16,14 @@ import v.kiselev.persist.model.Order;
 import v.kiselev.persist.model.OrderLineItem;
 import v.kiselev.persist.model.Product;
 import v.kiselev.persist.model.User;
+import v.kiselev.services.dto.OrderMessage;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -32,12 +35,17 @@ public class OrderServiceImpl implements OrderService{
 
     private final ProductRepository productRepository;
 
+    private final RabbitTemplate rabbitTemplate;
+
+
+
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, CartService cartService, UserRepository userRepository, ProductRepository productRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, CartService cartService, UserRepository userRepository, ProductRepository productRepository, RabbitTemplate rabbitTemplate) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
 
@@ -71,7 +79,7 @@ public class OrderServiceImpl implements OrderService{
         }
 
         User user = userRepository.findByUsername(username)
-                .orElseThrow(()->new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         Order order = orderRepository.save(new Order(
                 null,
@@ -94,7 +102,7 @@ public class OrderServiceImpl implements OrderService{
                 )).collect(Collectors.toList());
         order.setOrderLineItems(orderLineItems);
         orderRepository.save(order);
-
+        rabbitTemplate.convertAndSend("order.exchange", "new_order", new OrderMessage(order.getId(), order.getStatus().name()));
         cartService.clearCart();
     }
 
@@ -106,5 +114,11 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public List<OrderLineItem> findOrdersLineItem(Long id) {
         return orderRepository.findById(id).get().getOrderLineItems();
+    }
+
+    @RabbitListener(queues = "processed.order.queue")
+    public void receive(OrderMessage orderMessage) {
+        logger.info("Order with id '{}' state change to '{}'", orderMessage.getId(), orderMessage.getState());
+
     }
 }
