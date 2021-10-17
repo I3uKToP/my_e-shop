@@ -22,7 +22,7 @@ public class RabbitMqConfig {
 
     @Bean
     Queue processedOrderQueue() {
-        return new Queue("processed.order.queue",false);
+        return new Queue("processed.order.queue", false);
     }
 
     @Bean
@@ -36,16 +36,16 @@ public class RabbitMqConfig {
         return BindingBuilder
                 .bind(newOrderQueue)
                 .to(orderExchange)
-                .with("new_order");
+                .with("new_order"); // routing key
     }
 
     @Bean
-    Binding processedBinding(@Qualifier("processedOrderQueue") Queue processedOrderQueue,
-                            DirectExchange orderExchange) {
+    Binding processedOrderBinding(@Qualifier("processedOrderQueue") Queue processedOrderQueue,
+                                  DirectExchange orderExchange) {
         return BindingBuilder
                 .bind(processedOrderQueue)
                 .to(orderExchange)
-                .with("processed_order");
+                .with("processed_order"); // routing key
     }
 
     @Bean
@@ -64,6 +64,4 @@ public class RabbitMqConfig {
     public RabbitMqReceiver rabbitMqReceiver(RabbitTemplate rabbitTemplate) {
         return new RabbitMqReceiver(rabbitTemplate);
     }
-
-
 }

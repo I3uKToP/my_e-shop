@@ -1,4 +1,4 @@
-package v.kiselev.service;
+package v.kiselev.services;
 
 import v.kiselev.persist.model.Brand;
 

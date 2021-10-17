@@ -13,7 +13,7 @@ import v.kiselev.Errors.NotFoundException;
 import v.kiselev.controller.DTO.RoleDto;
 import v.kiselev.controller.DTO.UserDto;
 import v.kiselev.persist.RoleRepository;
-import v.kiselev.service.UserService;
+import v.kiselev.services.UserService;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
