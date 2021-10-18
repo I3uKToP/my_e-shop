@@ -9,4 +9,8 @@ public interface PictureService {
     Optional<byte[]> getPictureDataById(long id);
 
     String createPicture(byte[] picture);
+
+    void deletePicture(long id);
+
+    Long findProductByPictureId(Long pictureId);
 }

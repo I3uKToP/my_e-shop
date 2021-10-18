@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import v.kiselev.persist.PictureRepository;
 import v.kiselev.persist.model.Picture;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class PictureServiceFileImpl implements PictureService {
 
     @Override
     public String createPicture(byte[] picture) {
-        String fileName = UUID.randomUUID().toString();
+        String fileName = UUID.randomUUID().toString().concat(".jpeg");
         try(OutputStream os = Files.newOutputStream((Paths.get(storagePath, fileName)))) {
 
             os.write(picture);
@@ -61,5 +62,24 @@ public class PictureServiceFileImpl implements PictureService {
             throw new RuntimeException(ex);
         }
         return fileName;
+    }
+
+    @Override
+    @Transactional
+    public void deletePicture(long id) {
+        logger.info("try to delete pictures");
+        String fileName = pictureRepository.findById(id).get().getStorageId();
+        try {
+            Files.delete(Paths.get(storagePath, fileName));
+        } catch (IOException ex) {
+            logger.error("Can't delete file", ex);
+            throw new RuntimeException(ex);
+        }
+        pictureRepository.deleteById(id);
+    }
+
+    @Override
+    public Long findProductByPictureId(Long pictureId) {
+        return pictureRepository.findById(pictureId).get().getProduct().getId();
     }
 }
