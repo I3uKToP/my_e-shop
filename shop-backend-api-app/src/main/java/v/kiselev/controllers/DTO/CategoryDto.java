@@ -1,5 +1,8 @@
 package v.kiselev.controllers.DTO;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
 public class CategoryDto {
 
     private Long id;

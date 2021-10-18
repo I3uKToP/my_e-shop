@@ -13,10 +13,11 @@ import { ProductInfoPageComponent } from './pages/product-info-page/product-info
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
 import { OrderPageComponent } from './pages/order-page/order-page.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import {CommonModule} from "@angular/common";
+import {UnauthorizedInterceptor} from "./components/heplers/unauthorized-interceptor";
 
 @NgModule({
   declarations: [
@@ -39,10 +40,11 @@ import {CommonModule} from "@angular/common";
     FormsModule,
     HttpClientModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientXsrfModule.withOptions({cookieName: 'XSRF-TOKEN'})
   ],
   providers: [
-    // { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

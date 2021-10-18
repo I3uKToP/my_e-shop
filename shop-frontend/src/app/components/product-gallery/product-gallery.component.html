@@ -2,7 +2,7 @@
 
   <div class="col" *ngFor="let prod of products">
     <div class="card">
-      <img class="card-img-top" src="/api/v1/picture/{{prod.pictures[0]}}" alt="Product image" width="100" height="200">
+      <img class="card-img-top" src="/api/v1/picture/{{prod.mainPictureId}}" alt="Product image" width="100" height="200">
       <div class="card-body">
         <h5 class="card-title">{{prod.name}}</h5>
         <p class="card-text">{{prod.description}}</p>
