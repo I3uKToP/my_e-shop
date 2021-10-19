@@ -18,10 +18,16 @@ import org.springframework.integration.jpa.dsl.Jpa;
 import org.springframework.integration.jpa.dsl.JpaUpdatingOutboundEndpointSpec;
 import org.springframework.integration.jpa.support.PersistMode;
 import org.springframework.messaging.MessageHandler;
+import v.kiselev.persist.BrandRepository;
+import v.kiselev.persist.CategoryRepository;
+import v.kiselev.persist.ProductRepository;
+import v.kiselev.persist.model.Brand;
+import v.kiselev.persist.model.Category;
+import v.kiselev.persist.model.Product;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.File;
+import java.math.BigDecimal;
 
 @Configuration
 public class ImportConfig {
@@ -34,8 +40,19 @@ public class ImportConfig {
     @Value("${dest.directory.path}")
     private String destDirPath;
 
+    private final BrandRepository brandRepository;
+    private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+
     @Autowired
     private EntityManagerFactory entityManagerFactory;
+
+    @Autowired
+    public ImportConfig(BrandRepository brandRepository, CategoryRepository categoryRepository, ProductRepository productRepository) {
+        this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
+    }
 
     @Bean
     public MessageSource<File> sourceDirectory() {
@@ -56,19 +73,48 @@ public class ImportConfig {
     @Bean
     public JpaUpdatingOutboundEndpointSpec jpaPersistHandler() {
         return Jpa.outboundAdapter(this.entityManagerFactory)
-                .entityClass(Object.class) // TODO указать класс нужной сущности //Product
+                .entityClass(Product.class)
                 .persistMode(PersistMode.PERSIST);
     }
 
     @Bean
-    public IntegrationFlow fileMoveFlow() {
+    public IntegrationFlow createProducts() {
         return IntegrationFlows.from(sourceDirectory(), conf -> conf.poller(Pollers.fixedDelay(2000)))
-                .filter(msg -> ((File) msg).getName().endsWith(".txt"))
+                .filter(msg -> ((File) msg).getName().endsWith(".csv"))
                 .transform(new FileToStringTransformer())
                 .split(s -> s.delimiters("\n"))
-                .<String, Object>transform(str -> {
+                .<String, Product>transform(str -> {
                     logger.info("new str {}", str);
-                    return new Object();
+                    String[] properties = str.split(";");
+                    if(productRepository.findByName(properties[0]).isPresent()) {
+                        return productRepository.findByName(properties[0]).get();
+                    }
+                    Product product = new Product();
+                    product.setName(properties[0].trim());
+//                    logger.info("Name " + properties[0]);
+                    product.setPrice(new BigDecimal(properties[1].trim()));
+//                    logger.info("Price " + properties[1]);
+                    product.setDescription(properties[2]);
+//                    logger.info("Desc " + properties[2]);
+
+                    if(!brandRepository.findByName(properties[4].trim()).isPresent()) {
+                        logger.info("brand not found");
+                        logger.info("Create new brand name: " + properties[4]);
+                        brandRepository.save(new Brand(properties[4].trim()));
+                    }
+                    Brand brand = brandRepository.findByName(properties[4].trim()).get();
+                    logger.info("Brand " + brand.getName());
+                    product.setBrand(brand);
+
+                    if(!categoryRepository.findByName(properties[3].trim()).isPresent()) {
+                        logger.info("brand not found");
+                        logger.info("Create new brand name: " + properties[3]);
+                        categoryRepository.save(new Category(properties[3].trim()));
+                    }
+                    Category category = categoryRepository.findByName(properties[3]).get();
+                    product.setCategory(category);
+                    logger.info("brand from properties: " + properties[4]);
+                    return product;
                 })
                 .handle(jpaPersistHandler(), ConsumerEndpointSpec::transactional)
                 .get();

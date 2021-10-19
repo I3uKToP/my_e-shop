@@ -16,7 +16,7 @@ public class Brand {
     private String name;
 
     @OneToMany(
-            mappedBy = "category",
+            mappedBy = "brand",
             cascade = CascadeType.ALL)
     private List<Product> products;
 
