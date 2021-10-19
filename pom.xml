@@ -34,6 +34,7 @@
         <module>spring-gateway</module>
         <module>picture-service</module>
         <module>shop-delivery-service</module>
+        <module>spring-integration</module>
     </modules>
 
     <dependencyManagement>

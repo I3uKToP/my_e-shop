@@ -18,8 +18,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/socket-channel")
                 .setAllowedOrigins("*")
-                .withSockJS()
-                .setSupressCors(true);
+                .withSockJS();
+//                .setSupressCors(true);
     }
 
     @Override
