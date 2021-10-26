@@ -22,16 +22,18 @@ export class OrderPageComponent implements OnInit {
     this.orderService.findOrdersByUser()
       .subscribe(orders => {
           this.orders = orders;
-
         },
         error => {
           console.log(error);
         });
     this.orderStatusService.onMessage('/order_out/order')
-      .subscribe(msg => console.log(`New message with status ${msg.state}`));
-  }
+      .subscribe(msg => {
+        console.log(`New message with status ${msg.state}`);
 
-  showOrder(order : Order) {
-    this.orderService.showDetailOrder(order).subscribe()
+        let updated = this.orders.find(order => order.id === msg.id);
+        if (updated) {
+          updated.status = msg.state;
+        }
+      });
   }
 }
