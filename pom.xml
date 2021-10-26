@@ -33,6 +33,7 @@
         <module>spring-eureka</module>
         <module>spring-gateway</module>
         <module>picture-service</module>
+        <module>picture-sevice</module>
         <module>shop-delivery-service</module>
         <module>spring-integration</module>
     </modules>

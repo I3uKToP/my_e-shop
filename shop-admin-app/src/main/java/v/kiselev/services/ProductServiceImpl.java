@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import v.kiselev.controller.DTO.ProductDto;
 import v.kiselev.controller.ProductListParam;
-import v.kiselev.persist.model.Picture;
-import v.kiselev.persist.model.Product;
 import v.kiselev.persist.ProductRepository;
 import v.kiselev.persist.ProductSpecifications;
-import v.kiselev.service.PictureService;
+import v.kiselev.persist.model.Picture;
+import v.kiselev.persist.model.Product;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -30,8 +30,10 @@ public class ProductServiceImpl implements ProductService {
     private final PictureService pictureService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, PictureService pictureService) {
+    public ProductServiceImpl(ProductRepository productRepository,
+                              PictureService pictureService) {
         this.productRepository = productRepository;
+
         this.pictureService = pictureService;
     }
 
