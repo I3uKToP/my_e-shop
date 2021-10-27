@@ -1,5 +1,35 @@
 version: '3'
 services:
+  cloud-config:
+    image: registry.heroku.com/geek-spring-cloud-config/web:latest
+    ports:
+      - 8888:8888
+  shop-admin-app:
+    image: registry.heroku.com/geek-shop-admin-app/web:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - mysql-data:/var/storage
+    command: bash -c "/apps/wait-for-service.sh db 3306 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
+
+  shop-api:
+    image: registry.heroku.com/geek-shop-backend-api-app/web:latest
+    ports:
+      - 8081:8081
+    command: bash -c "/apps/wait-for-service.sh delivery 8010 && /apps/wait-for-service.sh cloud-config 8888 && /apps/entrypoint.sh"
+
+  delivery:
+    image: registry.heroku.com/geek-shop-delivery-service/web:latest
+    ports:
+      - 8010:8010
+    command: bash -c "/apps/wait-for-service.sh rabbitmq 5672 && /apps/wait-for-service.sh cloud-config 8888  && /apps/entrypoint.sh"
+
+  picture:
+    image: registry.heroku.com/geek-picture-service/web:latest
+    ports:
+      - 8020:8020
+
+
   db:
     image: mysql:8.0.23
     environment:
@@ -24,3 +54,4 @@ services:
 
 volumes:
   mysql-data:
+  file-storage:
