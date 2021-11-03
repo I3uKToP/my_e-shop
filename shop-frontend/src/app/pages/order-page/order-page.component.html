@@ -12,11 +12,8 @@
       </tr>
       </thead>
       <tbody>
-<!--      <tr *ngFor="let order of orders" onclick="document.location = anyThink()">-->
-<!--      <tr *ngFor="let order of orders" onclick="document.location = 'links.html'">-->
-<!--      <tr *ngFor="let order of orders" onclick="document.location.href = 'links.html'">-->
-      <tr *ngFor="let order of orders" (click)="showOrder(order)">
-        <th  scope="row">{{order.id}} </th>
+      <tr *ngFor="let order of orders">
+        <th scope="row">{{order.id}} </th>
         <td>{{order.orderDate}}</td>
         <td>{{order.total}}</td>
         <td>{{order.status}}</td>
