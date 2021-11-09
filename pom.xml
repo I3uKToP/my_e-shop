@@ -36,6 +36,7 @@
         <module>picture-sevice</module>
         <module>shop-delivery-service</module>
         <module>spring-integration</module>
+        <module>ui-test</module>
     </modules>
 
     <dependencyManagement>
