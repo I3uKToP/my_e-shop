@@ -1,4 +1,4 @@
-package v.kiselev.dto;
+package v.kiselev.services.dto;
 
 public class OrderMessage {
     private Long id;

@@ -14,6 +14,8 @@ export class AuthService {
 
   public redirectUrl?: string;
 
+  public callbackAfterSuccess?: () => void;
+
   constructor(private http: HttpClient) {
     let data = localStorage.getItem('current_user');
     if (data) {
@@ -33,7 +35,10 @@ export class AuthService {
           if ('username' in resp) {
             this.currentUser = resp as Credentials;
             localStorage.setItem('current_user', JSON.stringify(resp));
-            return new AuthResult(this.currentUser, this.redirectUrl);
+            const authResult = new AuthResult(this.currentUser, this.redirectUrl, this.callbackAfterSuccess);
+            this.redirectUrl = undefined;
+            this.callbackAfterSuccess = undefined;
+            return authResult;
           }
           throw new Error('Authentication error');
         })

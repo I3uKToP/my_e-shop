@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 public class SecurityConfiguration {
 
     @Autowired
-    public void authConfigure(AuthenticationManagerBuilder auth,
-                              UserAuthService userAuthService) throws Exception {
+    public void authConfig(AuthenticationManagerBuilder auth,
+                           UserAuthService userAuthService) throws Exception {
         auth.userDetailsService(userAuthService);
     }
 

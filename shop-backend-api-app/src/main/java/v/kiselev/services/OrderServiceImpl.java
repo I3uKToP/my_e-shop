@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import v.kiselev.controllers.DTO.OrderDto;
@@ -37,15 +38,21 @@ public class OrderServiceImpl implements OrderService {
 
     private final RabbitTemplate rabbitTemplate;
 
-
+    private final SimpMessagingTemplate template;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, CartService cartService, UserRepository userRepository, ProductRepository productRepository, RabbitTemplate rabbitTemplate) {
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            CartService cartService,
+                            UserRepository userRepository,
+                            ProductRepository productRepository,
+                            RabbitTemplate rabbitTemplate,
+                            SimpMessagingTemplate template) {
         this.orderRepository = orderRepository;
         this.cartService = cartService;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.rabbitTemplate = rabbitTemplate;
+        this.template = template;
     }
 
 
@@ -117,8 +124,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @RabbitListener(queues = "processed.order.queue")
-    public void receive(OrderMessage orderMessage) {
-        logger.info("Order with id '{}' state change to '{}'", orderMessage.getId(), orderMessage.getState());
-
+    public void receive(OrderMessage order) {
+        logger.info("Order with id '{}' state change to '{}'", order.getId(), order.getState());
+        template.convertAndSend("/order_out/order", order);
     }
 }

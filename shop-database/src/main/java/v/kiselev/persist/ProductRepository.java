@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import v.kiselev.persist.model.Product;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
@@ -16,5 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 //    countQuery = "select count(p) from Product p")
     @EntityGraph("product-wth-all")
     Page<Product> findAll(Pageable var2);
+
+    Optional<Product> findByName(String name);
 
 }

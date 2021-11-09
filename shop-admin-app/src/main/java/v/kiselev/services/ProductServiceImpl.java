@@ -1,4 +1,4 @@
-package v.kiselev.service;
+package v.kiselev.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,7 @@ import v.kiselev.persist.model.Picture;
 import v.kiselev.persist.model.Product;
 import v.kiselev.persist.ProductRepository;
 import v.kiselev.persist.ProductSpecifications;
+import v.kiselev.service.PictureService;
 
 import java.io.IOException;
 import java.util.List;
