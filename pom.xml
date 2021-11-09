@@ -20,6 +20,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <java.version>11</java.version>
         <liquibase.version>4.3.1</liquibase.version>
+        <spring-cloud.version>2020.0.4</spring-cloud.version>
     </properties>
 
     <packaging>pom</packaging>
@@ -28,7 +29,22 @@
         <module>shop-database</module>
         <module>shop-admin-app</module>
         <module>shop-backend-api-app</module>
-        <module>picture-sevice</module>
+        <module>spring-cloud-config</module>
+        <module>spring-eureka</module>
+        <module>spring-gateway</module>
+        <module>picture-service</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
